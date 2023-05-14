@@ -6,6 +6,7 @@ public class Graph : MonoBehaviour
 {
     [SerializeField] private Transform pointPrefab;
     [SerializeField, Range(10, 100)] private int resolution = 10;
+    [SerializeField] private FunctionLibrary.FunctionName function;
 
     private Transform[] points;
 
@@ -34,11 +35,12 @@ public class Graph : MonoBehaviour
 
     void Update()
     {
-        for(int i = 0; i < points.Length; i++)
+        FunctionLibrary.Function f = FunctionLibrary.GetFunction(function);
+        for (int i = 0; i < points.Length; i++)
         {
             Transform point = points[i];
             Vector3 position = point.localPosition;
-            position.y = Mathf.Sin(Mathf.PI * (position.x + Time.time));
+            position.y = f(position.x, Time.time);
             point.localPosition = position;
         }
     }
